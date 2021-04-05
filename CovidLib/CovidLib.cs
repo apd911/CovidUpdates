@@ -4,10 +4,41 @@ using System.Net;
 
 namespace CovidLib
 {
+    public struct Values
+    {
+        public string data;
+        public string nuoviPositivi;
+        public string totaleCasi;
+        public string nuoviDeceduti;
+        public string totaleDeceduti;
+        public string nuoviTamponi;
+        public string totaleTamponi;
+        public string totaleGuariti;
+        public string totalePositivi;
+    }
+
+    public struct RawValues
+    {
+        public string data;
+        public int nuoviPositivi;
+        public int totaleCasi;
+        public int totaleDeceduti;
+        public int totaleDecedutiPrecedenti;
+        public int totaleTamponi;
+        public int totaleTamponiPrecedenti;
+        public int totaleGuariti;
+        public int totalePositivi;
+        public int nuoviDeceduti;
+        public int nuoviTamponi;
+    }
     public static class Parser
     {
-        public static Tuple<string, int, int, int, int, int, int, Tuple<int, int>> Parse(string source)
+        
+
+        public static RawValues Parse(string source)
         {
+            RawValues rawValue = new RawValues();
+
             var json = new WebClient().DownloadString(source);
             using JsonDocument doc = JsonDocument.Parse(json);
             JsonElement root = doc.RootElement;
@@ -18,22 +49,41 @@ namespace CovidLib
             var u1 = root[last];
             var u2 = root[ptolast];
 
-            DateTime datar = u1.GetProperty("data").GetDateTime();
-            string data = datar.ToString("dd MMMM yyyy");
-            int npositivi = u1.GetProperty("nuovi_positivi").GetInt32();
-            int tcasi = u1.GetProperty("totale_casi").GetInt32();
-            int deceduti = u1.GetProperty("deceduti").GetInt32();
-            int pdeceduti = u2.GetProperty("deceduti").GetInt32();
-            int tamponi = u1.GetProperty("tamponi").GetInt32();
-            int ptamponi = u2.GetProperty("tamponi").GetInt32();
-            int dimessig = u1.GetProperty("dimessi_guariti").GetInt32();
-            int tpositivi = u1.GetProperty("totale_positivi").GetInt32();
+            rawValue.data = u1.GetProperty("data").GetDateTime().ToString("dd MMMM yyyy");
+            rawValue.nuoviPositivi = u1.GetProperty("nuovi_positivi").GetInt32();
+            rawValue.totaleCasi = u1.GetProperty("totale_casi").GetInt32();
+            rawValue.totaleDeceduti = u1.GetProperty("deceduti").GetInt32();
+            rawValue.totaleDecedutiPrecedenti = u2.GetProperty("deceduti").GetInt32();
+            rawValue.totaleTamponi = u1.GetProperty("tamponi").GetInt32();
+            rawValue.totaleTamponiPrecedenti = u2.GetProperty("tamponi").GetInt32();
+            rawValue.totaleGuariti = u1.GetProperty("dimessi_guariti").GetInt32();
+            rawValue.totalePositivi = u1.GetProperty("totale_positivi").GetInt32();
 
-            int gdeceduti = deceduti - pdeceduti;
-            int gtamponi = tamponi - ptamponi;
+            rawValue.nuoviDeceduti = rawValue.totaleDeceduti - rawValue.totaleDecedutiPrecedenti;
+            rawValue.nuoviTamponi = rawValue.totaleTamponi - rawValue.totaleTamponiPrecedenti;
 
+            return rawValue;
+        }
 
-            return new Tuple<string, int, int, int, int, int, int, Tuple<int, int>>(data, npositivi, tcasi, gdeceduti, gtamponi, dimessig, tpositivi, new Tuple<int, int>(deceduti, tamponi));
+        public static Values Format(string source)
+        {
+            RawValues raw = Parse(source);
+
+            Values V = new Values();
+
+            string format = "#,##0";
+
+            V.data = raw.data;
+            V.nuoviPositivi = raw.nuoviPositivi.ToString(format);
+            V.totaleCasi = raw.totaleCasi.ToString(format);
+            V.nuoviDeceduti = raw.nuoviDeceduti.ToString(format);
+            V.totaleDeceduti = raw.totaleDeceduti.ToString(format);
+            V.nuoviTamponi = raw.nuoviTamponi.ToString(format);
+            V.totaleTamponi = raw.totaleTamponi.ToString(format);
+            V.totaleGuariti = raw.totaleGuariti.ToString(format);
+            V.totalePositivi = raw.totalePositivi.ToString(format);
+
+            return V;
         }
     }
 }

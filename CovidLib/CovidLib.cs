@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Net;
 
 namespace CovidLib
@@ -33,8 +32,6 @@ namespace CovidLib
     }
     public static class Parser
     {
-        
-
         public static RawValues Parse(string source)
         {
             RawValues rawValue = new RawValues();

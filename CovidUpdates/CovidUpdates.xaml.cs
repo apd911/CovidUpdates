@@ -20,12 +20,23 @@ namespace CovidUpdates
     {
         public MainWindow()
         {
-            string source = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
-            Values value = Parser.Format(source);
-
             InitializeComponent();
             
-            data.Text = "Aggiornato al " + value.data;
+            var values = Parser.Filtered(DateTime.Today);
+            var value = values[0];
+            
+            data.Text = "Aggiornamento: " + value.data;
+            dati.Text = value.nuoviPositivi + "\t\tNuovi contagi\n" + value.totalePositivi + "\t\tTotale positivi\n" + value.nuoviDeceduti + "\t\tNuovi deceduti\n" +
+                value.totaleDeceduti + "\t\tTotale deceduti\n" + value.nuoviTamponi + "\t\tNuovi tamponi\n" + value.totaleTamponi + "\tTotale tamponi\n" +
+                value.totaleGuariti + "\tTotale guariti\n" + value.totaleCasi + "\tTotale casi\n";
+        }
+        private void DateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DateTime selected = (DateTime)calendar.SelectedDate;
+            var values = Parser.Filtered(selected);
+            var value = values[0];
+
+            data.Text = "Aggiornamento: " + value.data;
             dati.Text = value.nuoviPositivi + "\t\tNuovi contagi\n" + value.totalePositivi + "\t\tTotale positivi\n" + value.nuoviDeceduti + "\t\tNuovi deceduti\n" +
                 value.totaleDeceduti + "\t\tTotale deceduti\n" + value.nuoviTamponi + "\t\tNuovi tamponi\n" + value.totaleTamponi + "\tTotale tamponi\n" +
                 value.totaleGuariti + "\tTotale guariti\n" + value.totaleCasi + "\tTotale casi\n";

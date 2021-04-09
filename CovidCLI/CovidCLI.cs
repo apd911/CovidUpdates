@@ -7,18 +7,21 @@ namespace CovidCLI
     {
         static void Main(string[] args)
         {
-            string source = "https://raw.githubusercontent.com/pcm-dpc/COVID-19/master/dati-json/dpc-covid19-ita-andamento-nazionale.json";
-            Values value = Parser.Format(source);
+            //var records = Parser.ReadCSV();
+            //var record = records[records.Count - 1];
+
+            var records = Parser.Filtered(DateTime.Today.AddDays(-5));
+            var record = records[0];
             
-            Console.WriteLine("Aggiornamento al " + value.data + ".\n");
-            Console.WriteLine(value.nuoviPositivi + "\t\tnuovi positivi");
-            Console.WriteLine(value.totalePositivi + "\t\ttotale positivi\n");
-            Console.WriteLine(value.nuoviDeceduti + "\t\tnuovi deceduti");
-            Console.WriteLine(value.totaleDeceduti + "\t\ttotale deceduti\n");
-            Console.WriteLine(value.nuoviTamponi + "\t\tnuovi tamponi");
-            Console.WriteLine(value.totaleTamponi + "\ttotale tamponi\n");
-            Console.WriteLine(value.totaleGuariti + "\ttotale guariti");
-            Console.WriteLine(value.totaleCasi + "\ttotale casi");
+            Console.WriteLine("Aggiornamento: " + record.data + ".\n");
+            Console.WriteLine(record.nuoviPositivi + "\t\tnuovi positivi");
+            Console.WriteLine(record.totalePositivi + "\t\ttotale positivi\n");
+            Console.WriteLine(record.nuoviDeceduti + "\t\tnuovi deceduti");
+            Console.WriteLine(record.totaleDeceduti + "\t\ttotale deceduti\n");
+            Console.WriteLine(record.nuoviTamponi + "\t\tnuovi tamponi");
+            Console.WriteLine(record.totaleTamponi + "\ttotale tamponi\n");
+            Console.WriteLine(record.totaleGuariti + "\ttotale guariti");
+            Console.WriteLine(record.totaleCasi + "\ttotale casi\n");
 
             Console.WriteLine("\nPremere Invio per chiudere il programma...");
             Console.ReadLine();

@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.ComponentModel;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -24,11 +25,20 @@ namespace CovidUpdates
             
             var values = Parser.Filtered(DateTime.Today);
             var value = values[0];
-            
-            data.Text = "Aggiornamento: " + value.data;
-            dati.Text = value.nuoviPositivi + "\t\tNuovi contagi\n" + value.totalePositivi + "\t\tTotale positivi\n" + value.nuoviDeceduti + "\t\tNuovi deceduti\n" +
-                value.totaleDeceduti + "\t\tTotale deceduti\n" + value.nuoviTamponi + "\t\tNuovi tamponi\n" + value.totaleTamponi + "\tTotale tamponi\n" +
-                value.totaleGuariti + "\tTotale guariti\n" + value.totaleCasi + "\tTotale casi\n";
+
+            regioni.Text = "-- Seleziona --";
+
+            labels.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Totale Guariti\n" + "Totale Casi";
+            labelsr.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Totale Guariti\n" + "Totale Casi\n" + "Regione";
+
+            data.Text = value.data;
+            datar.Text = value.data;
+            dati.Text = value.nuoviPositivi + "\n" + value.totalePositivi + "\n" + value.nuoviDeceduti + "\n" +
+                value.totaleDeceduti + "\n" + value.nuoviTamponi + "\n" + value.totaleTamponi + "\n" +
+                value.totaleGuariti + "\n" + value.totaleCasi;
+            datir.Text = value.nuoviPositivi + "\n" + value.totalePositivi + "\n" + value.nuoviDeceduti + "\n" +
+                value.totaleDeceduti + "\n" + value.nuoviTamponi + "\n" + value.totaleTamponi + "\n" +
+                value.totaleGuariti + "\n" + value.totaleCasi + "\nItalia";
         }
         private void DateChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -36,10 +46,26 @@ namespace CovidUpdates
             var values = Parser.Filtered(selected);
             var value = values[0];
 
-            data.Text = "Aggiornamento: " + value.data;
-            dati.Text = value.nuoviPositivi + "\t\tNuovi contagi\n" + value.totalePositivi + "\t\tTotale positivi\n" + value.nuoviDeceduti + "\t\tNuovi deceduti\n" +
-                value.totaleDeceduti + "\t\tTotale deceduti\n" + value.nuoviTamponi + "\t\tNuovi tamponi\n" + value.totaleTamponi + "\tTotale tamponi\n" +
-                value.totaleGuariti + "\tTotale guariti\n" + value.totaleCasi + "\tTotale casi\n";
+            data.Text = value.data;
+            dati.Text = value.nuoviPositivi + "\n" + value.totalePositivi + "\n" + value.nuoviDeceduti + "\n" +
+                value.totaleDeceduti + "\n" + value.nuoviTamponi + "\n" + value.totaleTamponi + "\n" +
+                value.totaleGuariti + "\n" + value.totaleCasi;
+        }
+
+        private void SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBoxItem cbi = (ComboBoxItem)regioni.SelectedItem;
+            DateTime selected = (DateTime)calendarr.SelectedDate;
+            string regione = "Abruzzo";
+            if (cbi != null) { regione = cbi.Content.ToString(); }
+
+            var valuesr = Parser.FilteredRegioni(selected, regione);
+            var valuer = valuesr[0];
+
+            datar.Text = valuer.data;
+            datir.Text = valuer.nuoviPositivi + "\n" + valuer.totalePositivi + "\n" + valuer.nuoviDeceduti + "\n" +
+               valuer.totaleDeceduti + "\n" + valuer.nuoviTamponi + "\n" + valuer.totaleTamponi + "\n" +
+               valuer.totaleGuariti + "\n" + valuer.totaleCasi + "\n" + valuer.regione;
         }
     }
 }

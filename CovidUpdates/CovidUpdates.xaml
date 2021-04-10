@@ -6,22 +6,75 @@
         xmlns:local="clr-namespace:CovidUpdates"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         mc:Ignorable="d"
-        Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="320" MinWidth="600">
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" x:Name="data" HorizontalAlignment="Center" Margin="40,20,40,0" Text="Aggiornato il" TextWrapping="Wrap" VerticalAlignment="Center"/>
-        <TextBlock Grid.Column="0" Grid.Row="1" x:Name="dati" HorizontalAlignment="Left" Margin="40,40,0,40" Text="Dati" TextWrapping="Wrap" VerticalAlignment="Center"/>
-        <Calendar Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="2" SelectedDatesChanged="DateChanged" Name="calendar" IsTodayHighlighted="true" DisplayDateStart="2/20/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" Margin="40,20,40,40" SelectionMode="SingleDate">
-            <Calendar.BlackoutDates>
-                <CalendarDateRange End="2/19/2020"/>
-            </Calendar.BlackoutDates>
-        </Calendar>
-    </Grid>
+        Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="340" MinWidth="500">
+    
+    <TabControl>
+        <TabItem Header="Italia">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="data" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="dati" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labels" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Calendar Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDatesChanged="DateChanged" Name="calendar" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,20,20,20" SelectionMode="SingleDate">
+                    <Calendar.BlackoutDates>
+                        <CalendarDateRange End="2/23/2020"/>
+                    </Calendar.BlackoutDates>
+                </Calendar>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Regioni" Height="20" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="datar" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelsr" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <ComboBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Name="regioni" Margin="20,20,20,0" Height="20" Width="150" HorizontalAlignment="Right" IsReadOnly="True" SelectionChanged="SelectionChanged">
+                    <ComboBoxItem Content="Abruzzo"/>
+                    <ComboBoxItem Content="Basilicata"/>
+                    <ComboBoxItem Content="Calabria"/>
+                    <ComboBoxItem Content="Campania"/>
+                    <ComboBoxItem Content="Emilia-Romagna"/>
+                    <ComboBoxItem Content="Friuli Venezia Giulia"/>
+                    <ComboBoxItem Content="Lazio"/>
+                    <ComboBoxItem Content="Liguria"/>
+                    <ComboBoxItem Content="Lombardia"/>
+                    <ComboBoxItem Content="Marche"/>
+                    <ComboBoxItem Content="Molise"/>
+                    <ComboBoxItem Content="P.A. Bolzano"/>
+                    <ComboBoxItem Content="P.A. Trento"/>
+                    <ComboBoxItem Content="Piemonte"/>
+                    <ComboBoxItem Content="Puglia"/>
+                    <ComboBoxItem Content="Sardegna"/>
+                    <ComboBoxItem Content="Sicilia"/>
+                    <ComboBoxItem Content="Toscana"/>
+                    <ComboBoxItem Content="Umbria"/>
+                    <ComboBoxItem Content="Valle d'Aosta"/>
+                    <ComboBoxItem Content="Veneto"/>
+                </ComboBox>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="datir" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Calendar Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDatesChanged="SelectionChanged" Name="calendarr" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,20,20,20" VerticalAlignment="Bottom" SelectionMode="SingleDate">
+                    <Calendar.BlackoutDates>
+                        <CalendarDateRange End="2/23/2020"/>
+                    </Calendar.BlackoutDates>
+                </Calendar>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>

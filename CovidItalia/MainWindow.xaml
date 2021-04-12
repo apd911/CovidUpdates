@@ -1,0 +1,111 @@
+﻿<Window x:Class="CovidItalia.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        xmlns:local="clr-namespace:CovidItalia"
+        mc:Ignorable="d"
+        Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="340" MinWidth="500">
+    
+    <TabControl>
+        <TabItem Header="Italia">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="data" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="dati" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labels" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Calendar Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDatesChanged="DateChanged" Name="calendar" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,20,20,20" SelectionMode="SingleDate">
+                    <Calendar.BlackoutDates>
+                        <CalendarDateRange End="2/23/2020"/>
+                    </Calendar.BlackoutDates>
+                </Calendar>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Regioni" Height="20" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="datar" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
+                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labelsr" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <ComboBox Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="3" Name="regioni" Margin="20,20,20,0" Height="20" Width="150" HorizontalAlignment="Right" IsReadOnly="True" SelectionChanged="SelectionChanged">
+                    <ComboBoxItem Content="Abruzzo"/>
+                    <ComboBoxItem Content="Basilicata"/>
+                    <ComboBoxItem Content="Calabria"/>
+                    <ComboBoxItem Content="Campania"/>
+                    <ComboBoxItem Content="Emilia-Romagna"/>
+                    <ComboBoxItem Content="Friuli Venezia Giulia"/>
+                    <ComboBoxItem Content="Lazio"/>
+                    <ComboBoxItem Content="Liguria"/>
+                    <ComboBoxItem Content="Lombardia"/>
+                    <ComboBoxItem Content="Marche"/>
+                    <ComboBoxItem Content="Molise"/>
+                    <ComboBoxItem Content="P.A. Bolzano"/>
+                    <ComboBoxItem Content="P.A. Trento"/>
+                    <ComboBoxItem Content="Piemonte"/>
+                    <ComboBoxItem Content="Puglia"/>
+                    <ComboBoxItem Content="Sardegna"/>
+                    <ComboBoxItem Content="Sicilia"/>
+                    <ComboBoxItem Content="Toscana"/>
+                    <ComboBoxItem Content="Umbria"/>
+                    <ComboBoxItem Content="Valle d'Aosta"/>
+                    <ComboBoxItem Content="Veneto"/>
+                </ComboBox>
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="datir" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <Calendar Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDatesChanged="SelectionChanged" Name="calendarr" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,20,20,20" VerticalAlignment="Bottom" SelectionMode="SingleDate">
+                    <Calendar.BlackoutDates>
+                        <CalendarDateRange End="2/23/2020"/>
+                    </Calendar.BlackoutDates>
+                </Calendar>
+            </Grid>
+        </TabItem>
+        <TabItem Header="Grafico Italia" Height="20" VerticalAlignment="Top">
+            <Grid HorizontalAlignment="Center" VerticalAlignment="Center" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <DatePicker x:Name="start" Width="100" Height="25" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Left" Margin="10" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDateChanged="start_SelectedDateChanged" />
+                <DatePicker x:Name="end" Width="100" Height="25" Grid.Row="0" Grid.Column="1" IsEnabled="False" HorizontalAlignment="Right" Margin="10" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDateChanged="end_SelectedDateChanged" />
+                <ListBox x:Name="checkboxes" Grid.Row="1" Grid.Column="0" IsEnabled="False" Margin="10">
+                    <CheckBox x:Name="nuoviPositivi" Content="Nuovi Contagi" />
+                    <CheckBox x:Name="totalePositivi" Content="Totale Positivi" />
+                    <CheckBox x:Name="nuoviDeceduti" Content="Nuovi Deceduti" />
+                    <CheckBox x:Name="totaleDeceduti" Content="Totale Deceduti" />
+                    <CheckBox x:Name="nuoviTamponi" Content="Nuovi Tamponi" />
+                    <CheckBox x:Name="totaleTamponi" Content="Totale Tamponi" />
+                    <CheckBox x:Name="totaleGuariti" Content="Totale Guariti" />
+                    <CheckBox x:Name="totaleCasi" Content="Totale Casi" />
+                </ListBox>
+                <Button Grid.Row="0" Grid.Column="0" x:Name="reset" Content="Aggiorna" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="20" Click="reset_Click"/>
+                <lvc:CartesianChart x:Name="charter" Grid.Column="1" Grid.Row='1' Series="{Binding SeriesCollection}" Height="Auto" Width="Auto" Hoverable="true" MinWidth="1200" Zoom="Xy" MinHeight="900" VerticalAlignment="Center" HorizontalAlignment="Center" LegendLocation="Right">
+                    <lvc:CartesianChart.AxisX>
+                        <lvc:Axis x:Name="xaxis" />
+                    </lvc:CartesianChart.AxisX>
+                </lvc:CartesianChart>
+            </Grid>
+        </TabItem>
+    </TabControl>
+</Window>

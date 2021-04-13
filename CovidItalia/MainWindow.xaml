@@ -96,6 +96,7 @@
                     <CheckBox x:Name="totaleDeceduti" Content="Totale Deceduti" />
                     <CheckBox x:Name="nuoviTamponi" Content="Nuovi Tamponi" />
                     <CheckBox x:Name="totaleTamponi" Content="Totale Tamponi" />
+                    <CheckBox x:Name="nuoviGuariti" Content="Nuovi Guariti" />
                     <CheckBox x:Name="totaleGuariti" Content="Totale Guariti" />
                     <CheckBox x:Name="totaleCasi" Content="Totale Casi" />
                 </ListBox>

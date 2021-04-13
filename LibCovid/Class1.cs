@@ -6,14 +6,12 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using LiveCharts;
-using LiveCharts.Wpf;
-using LiveCharts.Configurations;
 
 namespace LibCovid
 {
     public class DateModel
     {
-        public System.DateTime DateTime { get; set; }
+        public DateTime DateTime { get; set; }
         public double Value { get; set; }
     }
 
@@ -27,6 +25,7 @@ namespace LibCovid
             public int totaleCasi { get; set; }
             public int totaleDeceduti { get; set; }
             public int totaleTamponi { get; set; }
+            public int nuoviGuariti { get; set; }
             public int totaleGuariti { get; set; }
             public int totalePositivi { get; set; }
             public int nuoviDeceduti { get; set; }
@@ -52,6 +51,7 @@ namespace LibCovid
                     {
                         regionep.totaleTamponi = records[records.Count - 1].totaleTamponi;
                         regionep.totaleDeceduti = records[records.Count - 1].totaleDeceduti;
+                        regionep.totaleGuariti = records[records.Count - 1].totaleGuariti;
                     }
                     var record = new Dati
                     {
@@ -63,8 +63,9 @@ namespace LibCovid
                         totaleTamponi = csv.GetField<int>("tamponi"),
                         totaleGuariti = csv.GetField<int>("dimessi_guariti"),
                         totalePositivi = csv.GetField<int>("totale_positivi"),
-                        nuoviDeceduti = (csv.GetField<int>("deceduti") - regionep.totaleDeceduti),
-                        nuoviTamponi = (csv.GetField<int>("tamponi") - regionep.totaleTamponi)
+                        nuoviGuariti = csv.GetField<int>("dimessi_guariti") - regionep.totaleGuariti,
+                        nuoviDeceduti = csv.GetField<int>("deceduti") - regionep.totaleDeceduti,
+                        nuoviTamponi = csv.GetField<int>("tamponi") - regionep.totaleTamponi
                     };
 
                     records.Add(record);
@@ -93,6 +94,7 @@ namespace LibCovid
                     {
                         regionep.totaleTamponi = records[records.Count - 21].totaleTamponi;
                         regionep.totaleDeceduti = records[records.Count - 21].totaleDeceduti;
+                        regionep.totaleGuariti = records[records.Count - 21].totaleGuariti;
                     }
 
                     var record = new Dati
@@ -105,8 +107,9 @@ namespace LibCovid
                         totaleTamponi = csv.GetField<int>("tamponi"),
                         totaleGuariti = csv.GetField<int>("dimessi_guariti"),
                         totalePositivi = csv.GetField<int>("totale_positivi"),
-                        nuoviDeceduti = (csv.GetField<int>("deceduti") - regionep.totaleDeceduti),
-                        nuoviTamponi = (csv.GetField<int>("tamponi") - regionep.totaleTamponi)
+                        nuoviGuariti = csv.GetField<int>("dimessi_guariti") - regionep.totaleGuariti,
+                        nuoviDeceduti = csv.GetField<int>("deceduti") - regionep.totaleDeceduti,
+                        nuoviTamponi = csv.GetField<int>("tamponi") - regionep.totaleTamponi
                     };
 
                     records.Add(record);
@@ -299,6 +302,28 @@ namespace LibCovid
                         if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
                         {
                             filtered.Add(record.totaleTamponi);
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> nuoviGuariti(DateTime start, DateTime end)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            filtered.Add(record.nuoviGuariti);
                         }
                     }
                 }

@@ -1,29 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.ComponentModel;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using System.Windows.Forms;
+using System.Drawing;
 using LibCovid;
 using LiveCharts;
 using LiveCharts.Wpf;
-using LiveCharts.Charts;
+using Brushes = System.Windows.Media.Brushes;
+using MenuItem = System.Windows.Forms.MenuItem;
+using ContextMenu = System.Windows.Forms.ContextMenu;
 
 namespace CovidItalia
 {
     public partial class MainWindow : Window
     {
+        NotifyIcon nIcon = new NotifyIcon();
+
         public MainWindow()
         {
+            ShowInTaskbar = true;
+
+            nIcon.Icon = new Icon(@"../../Icon.ico");
+            nIcon.Visible = true;
+            nIcon.Text = "CoViD-19 Italia";
+
+            nIcon.DoubleClick +=
+                delegate (object sender, EventArgs args)
+                {
+                    Show();
+                    WindowState = WindowState.Normal;
+                };
+
+            MenuItem open = new MenuItem("&Apri");
+            MenuItem close = new MenuItem("&Chiudi Applicazione");
+
+            //nIcon.ContextMenu.MenuItems.Add(open);
+            //nIcon.ContextMenu.MenuItems.Add(close);
+
             string format = "#,##0";
 
             InitializeComponent();
@@ -33,20 +46,29 @@ namespace CovidItalia
 
             regioni.Text = "-- Seleziona --";
 
-            labels.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Totale Guariti\n" + "Totale Casi";
-            labelsr.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Totale Guariti\n" + "Totale Casi\n" + "Regione";
+            labels.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Nuovi Guariti\n" + "Totale Guariti\n" + "Totale Casi";
+            labelsr.Text = "Nuovi Contagi\n" + "Totale Positivi\n" + "Nuovi Deceduti\n" + "Totale Deceduti\n" + "Nuovi Tamponi\n" + "Totale Tamponi\n" + "Nuovi Guariti\n" + "Totale Guariti\n" + "Totale Casi\n" + "Regione";
 
             data.Text = value.data.ToString("dd MMMM yyyy");
             datar.Text = value.data.ToString("dd MMMM yyyy");
             dati.Text = value.nuoviPositivi.ToString(format) + "\n" + value.totalePositivi.ToString(format) + "\n" + value.nuoviDeceduti.ToString(format) + "\n" +
-                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" +
+                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" + value.nuoviGuariti.ToString(format) + "\n" +
                 value.totaleGuariti.ToString(format) + "\n" + value.totaleCasi.ToString(format);
             datir.Text = value.nuoviPositivi.ToString(format) + "\n" + value.totalePositivi.ToString(format) + "\n" + value.nuoviDeceduti.ToString(format) + "\n" +
-                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" +
+                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" + value.nuoviGuariti.ToString(format) + "\n" +
                 value.totaleGuariti.ToString(format) + "\n" + value.totaleCasi.ToString(format) + "\nItalia";
             SeriesCollection = new SeriesCollection{};
             DataContext = this;
         }
+
+        protected override void OnStateChanged(EventArgs e)
+        {
+            if (WindowState == WindowState.Minimized)
+                Hide();
+
+            base.OnStateChanged(e);
+        }
+
         private void DateChanged(object sender, SelectionChangedEventArgs e)
 
         {
@@ -57,7 +79,7 @@ namespace CovidItalia
 
             data.Text = value.data.ToString("dd MMMM yyyy");
             dati.Text = value.nuoviPositivi.ToString(format) + "\n" + value.totalePositivi.ToString(format) + "\n" + value.nuoviDeceduti.ToString(format) + "\n" +
-                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" +
+                value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" + value.nuoviGuariti.ToString(format) + "\n" +
                 value.totaleGuariti.ToString(format) + "\n" + value.totaleCasi.ToString(format);
         }
 
@@ -74,7 +96,7 @@ namespace CovidItalia
 
             datar.Text = valuer.data.ToString("dd MMMM yyyy");
             datir.Text = valuer.nuoviPositivi.ToString(format) + "\n" + valuer.totalePositivi.ToString(format) + "\n" + valuer.nuoviDeceduti.ToString(format) + "\n" +
-               valuer.totaleDeceduti.ToString(format) + "\n" + valuer.nuoviTamponi.ToString(format) + "\n" + valuer.totaleTamponi.ToString(format) + "\n" +
+               valuer.totaleDeceduti.ToString(format) + "\n" + valuer.nuoviTamponi.ToString(format) + "\n" + valuer.totaleTamponi.ToString(format) + "\n" + valuer.nuoviGuariti.ToString(format) + "\n" +
                valuer.totaleGuariti.ToString(format) + "\n" + valuer.totaleCasi.ToString(format) + "\n" + valuer.regione;
         }
 
@@ -172,6 +194,20 @@ namespace CovidItalia
                 {
                     Title = "Totale Tamponi",
                     Values = Parser.ChartSelector.totaleTamponi(start.SelectedDate.Value, end.SelectedDate.Value),
+                    LineSmoothness = 0,
+                    PointGeometry = null,
+                    StrokeThickness = 1,
+                    Fill = Brushes.Transparent
+                });
+            }
+
+            if (nuoviGuariti.IsChecked == true)
+            {
+                SeriesCollection.Add(
+                new LineSeries
+                {
+                    Title = "Nuovi Guariti",
+                    Values = Parser.ChartSelector.nuoviGuariti(start.SelectedDate.Value, end.SelectedDate.Value),
                     LineSmoothness = 0,
                     PointGeometry = null,
                     StrokeThickness = 1,

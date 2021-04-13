@@ -1,42 +1,18 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
-using System.Drawing;
 using LibCovid;
 using LiveCharts;
 using LiveCharts.Wpf;
 using Brushes = System.Windows.Media.Brushes;
-using MenuItem = System.Windows.Forms.MenuItem;
-using ContextMenu = System.Windows.Forms.ContextMenu;
 
 namespace CovidItalia
 {
     public partial class MainWindow : Window
     {
-        NotifyIcon nIcon = new NotifyIcon();
 
         public MainWindow()
         {
-            ShowInTaskbar = true;
-
-            nIcon.Icon = new Icon(@"../../Icon.ico");
-            nIcon.Visible = true;
-            nIcon.Text = "CoViD-19 Italia";
-
-            nIcon.DoubleClick +=
-                delegate (object sender, EventArgs args)
-                {
-                    Show();
-                    WindowState = WindowState.Normal;
-                };
-
-            MenuItem open = new MenuItem("&Apri");
-            MenuItem close = new MenuItem("&Chiudi Applicazione");
-
-            //nIcon.ContextMenu.MenuItems.Add(open);
-            //nIcon.ContextMenu.MenuItems.Add(close);
-
             string format = "#,##0";
 
             InitializeComponent();

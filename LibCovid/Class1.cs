@@ -9,12 +9,6 @@ using LiveCharts;
 
 namespace LibCovid
 {
-    public class DateModel
-    {
-        public DateTime DateTime { get; set; }
-        public double Value { get; set; }
-    }
-
     public static class Parser
     {
         public class Dati
@@ -56,7 +50,7 @@ namespace LibCovid
                     var record = new Dati
                     {
                         data = csv.GetField<DateTime>("data"),
-                        regione = "italia",
+                        regione = "Italia",
                         nuoviPositivi = csv.GetField<int>("nuovi_positivi"),
                         totaleCasi = csv.GetField<int>("totale_casi"),
                         totaleDeceduti = csv.GetField<int>("deceduti"),
@@ -154,226 +148,44 @@ namespace LibCovid
             Func<List<Dati>> getData = () => ReadCSVRegioni();
 
             var records = cache.GetOrAdd("regioni.Get", getData);
-
-            foreach (var record in records)
+            if (records[records.Count -1].data.ToString("dd MMMM yyyy") != DateTime.Now.ToString("dd MMMM yyyy") & date.ToString("dd MMMM yyyy") == DateTime.Now.ToString("dd MMMM yyyy"))
             {
-                var filter = records[records.Count - 1];
-                filtered.Add(filter);
-
-                if (record.data.ToString("dd MMMM yyyy") == date.ToString("dd MMMM yyyy"))
+                foreach (var record in records)
                 {
-                    if (record.regione == regione)
+                    if (record.data.ToString("dd MMMM yyyy") == records[records.Count - 1].data.ToString("dd MMMM yyyy"))
                     {
-                        filter = record;
-                        filtered.Clear();
-                        filtered.Add(filter);
+                        if (record.regione == regione)
+                        {
+                            var filter = record;
+                            filtered.Clear();
+                            filtered.Add(filter);
+                        }
                     }
                 }
             }
+            else
+            {
+                foreach (var record in records)
+                {
+                    if (record.data.ToString("dd MMMM yyyy") == date.ToString("dd MMMM yyyy"))
+                    {
+                        if (record.regione == regione)
+                        {
+                            var filter = record;
+                            filtered.Clear();
+                            filtered.Add(filter);
+                        }
+                    }
+                }
+            }
+
+                
 
             return filtered;
         }
 
         public class ChartSelector
         {
-            public static ChartValues<int> nuoviPositivi(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.nuoviPositivi);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> nuoviDeceduti(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.nuoviDeceduti);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> totalePositivi(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.totalePositivi);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> totaleDeceduti(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.totaleDeceduti);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> nuoviTamponi(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.nuoviTamponi);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> totaleTamponi(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.totaleTamponi);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> nuoviGuariti(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.nuoviGuariti);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> totaleGuariti(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.totaleGuariti);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
-            public static ChartValues<int> totaleCasi(DateTime start, DateTime end)
-            {
-                ChartValues<int> filtered = new ChartValues<int>();
-                IAppCache cache = new CachingService();
-                Func<List<Dati>> getData = () => ReadCSV();
-                var records = cache.GetOrAdd("italia.Get", getData);
-
-                foreach (var record in records)
-                {
-                    var filter = records[records.Count - 1];
-
-                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
-                    {
-                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
-                        {
-                            filtered.Add(record.totaleCasi);
-                        }
-                    }
-                }
-                return filtered;
-            }
-
             public static ChartValues<string> data(DateTime start, DateTime end)
             {
                 ChartValues<string> filtered = new ChartValues<string>();
@@ -390,6 +202,304 @@ namespace LibCovid
                         if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
                         {
                             filtered.Add(record.data.ToString("dd MMM"));
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> nuoviPositivi(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+                
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.nuoviPositivi);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> nuoviDeceduti(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.nuoviDeceduti);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> totalePositivi(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.totalePositivi);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> totaleDeceduti(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.totaleDeceduti);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> nuoviTamponi(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.nuoviTamponi);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> totaleTamponi(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.totaleTamponi);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> nuoviGuariti(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.nuoviGuariti);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> totaleGuariti(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if (record.regione == region)
+                            {
+                                filtered.Add(record.totaleGuariti);
+                            }
+                        }
+                    }
+                }
+                return filtered;
+            }
+
+            public static ChartValues<int> totaleCasi(DateTime start, DateTime end, string region)
+            {
+                ChartValues<int> filtered = new ChartValues<int>();
+                IAppCache cache = new CachingService();
+                Func<List<Dati>> getData = () => ReadCSV();
+                var records = cache.GetOrAdd("italia.Get", getData);
+                if (region == "Italia")
+                {
+                    records = cache.GetOrAdd("italia.Get", getData);
+                }
+                else
+                {
+                    records = cache.GetOrAdd("regioni.Get", getData);
+                }
+
+                foreach (var record in records)
+                {
+                    var filter = records[records.Count - 1];
+
+                    if (DateTime.Compare(record.data, start) == 0 | DateTime.Compare(record.data, start) == 1)
+                    {
+                        if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
+                        {
+                            if(record.regione == region)
+                            {
+                                filtered.Add(record.totaleCasi);
+                            }
                         }
                     }
                 }

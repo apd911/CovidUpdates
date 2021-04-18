@@ -82,6 +82,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Window1.xaml.cs">
+      <DependentUpon>Window1.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -94,6 +97,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Window1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -123,6 +130,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CovidNotifyLib\CovidNotifyLib.csproj">
+      <Project>{52eaa923-9fab-4e08-ba89-28d061648d13}</Project>
+      <Name>CovidNotifyLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\LibCovid\LibCovid.csproj">
       <Project>{e9f41eb2-02d4-4122-9d27-9a5fa0d8281c}</Project>
       <Name>LibCovid</Name>

@@ -1,18 +1,65 @@
 ﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using LibCovid;
 using LiveCharts;
 using LiveCharts.Wpf;
+using System.Windows.Forms;
+using System.Drawing;
+using System.Threading;
+using System.Diagnostics;
+using CovidNotifyLib;
 using Brushes = System.Windows.Media.Brushes;
+using System.Collections.Generic;
 
 namespace CovidItalia
 {
     public partial class MainWindow : Window
     {
+        private NotifyIcon NotifyIcon;
+        private System.Windows.Forms.ContextMenu ContextMenu1;
+        private System.Windows.Forms.MenuItem MenuItemExit;
+        private System.Windows.Forms.MenuItem MenuItemOpen;
+        private System.ComponentModel.IContainer components;
+        private bool f;
 
         public MainWindow()
         {
+            new Thread(() =>
+            {
+                Thread.CurrentThread.IsBackground = true;
+                NotificationService();
+            }).Start();
+
+            f = false;
+            components = new System.ComponentModel.Container();
+            ContextMenu1 = new System.Windows.Forms.ContextMenu();
+            MenuItemExit = new System.Windows.Forms.MenuItem();
+            MenuItemOpen = new System.Windows.Forms.MenuItem();
+
+            ContextMenu1.MenuItems.AddRange(
+                new System.Windows.Forms.MenuItem[] { MenuItemOpen, MenuItemExit });
+
+            MenuItemOpen.Index = 0;
+            MenuItemOpen.Text = "A&pri";
+            MenuItemOpen.Click += new EventHandler(Open_click);
+
+            MenuItemExit.Index = 1;
+            MenuItemExit.Text = "C&hiudi";
+            MenuItemExit.Click += new EventHandler(Exit_click);
+
+            NotifyIcon = new NotifyIcon(components);
+
+            NotifyIcon.ContextMenu = ContextMenu1;
+            NotifyIcon.Visible = true;
+            NotifyIcon.Text = "Apri Aggiornamenti CoViD-19 Italia";
+            NotifyIcon.Icon = new Icon(@"../../Icon.ico");
+
+            NotifyIcon.DoubleClick += new EventHandler(Open_click);
+
+            ShowInTaskbar = true;
+
             string format = "#,##0";
 
             InitializeComponent();
@@ -57,12 +104,15 @@ namespace CovidItalia
             string regione = cbi.Content.ToString();
 
             var valuesr = Parser.FilteredRegioni(selected, regione);
-            var valuer = valuesr[0];
+            if (regioni.SelectedIndex != 0)
+            {
+                var valuer = valuesr[0];
 
-            datar.Text = valuer.data.ToString("dd MMMM yyyy");
-            datir.Text = valuer.nuoviPositivi.ToString(format) + "\n" + valuer.totalePositivi.ToString(format) + "\n" + valuer.nuoviDeceduti.ToString(format) + "\n" +
-               valuer.totaleDeceduti.ToString(format) + "\n" + valuer.nuoviTamponi.ToString(format) + "\n" + valuer.totaleTamponi.ToString(format) + "\n" + valuer.nuoviGuariti.ToString(format) + "\n" +
-               valuer.totaleGuariti.ToString(format) + "\n" + valuer.totaleCasi.ToString(format) + "\n" + valuer.regione;
+                datar.Text = valuer.data.ToString("dd MMMM yyyy");
+                datir.Text = valuer.nuoviPositivi.ToString(format) + "\n" + valuer.totalePositivi.ToString(format) + "\n" + valuer.nuoviDeceduti.ToString(format) + "\n" +
+                    valuer.totaleDeceduti.ToString(format) + "\n" + valuer.nuoviTamponi.ToString(format) + "\n" + valuer.totaleTamponi.ToString(format) + "\n" + valuer.nuoviGuariti.ToString(format) + "\n" +
+                    valuer.totaleGuariti.ToString(format) + "\n" + valuer.totaleCasi.ToString(format) + "\n" + valuer.regione;
+            }
         }
         
         private void regioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -219,5 +269,94 @@ namespace CovidItalia
 
         public SeriesCollection SeriesCollection { get; set; }
 
+        private void Hyperlink_RequestNavigate(object sender, System.Windows.Navigation.RequestNavigateEventArgs e)
+        {
+            System.Diagnostics.Process.Start(e.Uri.ToString());
+        }
+
+        private void ComboBoxItem_Selected(object sender, RoutedEventArgs e)
+        {
+            resetRegione.IsEnabled = false;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SeriesCollection.Clear();
+        }
+
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        {
+            if (f == false)
+            {
+                e.Cancel = true;
+                WindowState = WindowState.Minimized;
+                Visibility = Visibility.Hidden;
+                base.OnClosing(e);
+            }
+        }
+
+        private void Open_click(object Sender, EventArgs e)
+        {
+            Visibility = Visibility.Visible;
+            if (WindowState == WindowState.Minimized)
+                WindowState = WindowState.Normal;
+            Activate();
+        }
+
+        private void Exit_click(object Sender, EventArgs e)
+        {
+            f = true;
+            NotifyIcon.Visible = false;
+            NotifyIcon.Icon.Dispose();
+            NotifyIcon.Dispose();
+            Close();
+        }
+        
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            Window1 window1 = new Window1();
+            window1.Show();
+        }
+
+        private void NotificationService()
+        {
+            var values = Parser.Filtered(DateTime.Today);
+            var value = values[0];
+
+            while (true)
+            {
+                Thread.Sleep(5000);
+                if (File.Exists("./config.json") == true)
+                {
+                    List<ConfigurationFile.data> config = new List<ConfigurationFile.data>();
+                    config.Add(new ConfigurationFile.data()
+                    {
+                        win = ConfigurationFile.GetFile()[0].win,
+                        telegram = ConfigurationFile.GetFile()[0].telegram,
+                        botID = ConfigurationFile.GetFile()[0].botID,
+                        chatID = ConfigurationFile.GetFile()[0].chatID,
+                        lastUpdate = value.data
+                    });
+
+                    if(ConfigurationFile.GetFile()[0].lastUpdate.ToString("dd MMM yy") != value.data.ToString("dd MMM yy"))
+                    {
+                        ConfigurationFile.WriteFile(config);
+                    }
+
+                    Debug.WriteLine("File di configurazione OK");
+                    Debug.WriteLine("Win Notification " + ConfigurationFile.GetFile()[0].win.ToString());
+                    Debug.WriteLine("Telegram Notification " + ConfigurationFile.GetFile()[0].telegram.ToString());
+                    Debug.WriteLine("BotID " + ConfigurationFile.GetFile()[0].botID);
+                    Debug.WriteLine("ChatID " + ConfigurationFile.GetFile()[0].chatID);
+                    Debug.WriteLine("Ultimo Aggiornamento " + ConfigurationFile.GetFile()[0].lastUpdate.ToString("dd MMM yy"));
+                }
+                else
+                {
+                    ConfigurationFile.NewFile();
+                    Debug.WriteLine("File di configurazione riscritto");
+                }
+                Debug.WriteLine("Il thread funziona");
+            }
+        }
     }
 }

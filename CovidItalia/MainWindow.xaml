@@ -7,19 +7,31 @@
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         xmlns:local="clr-namespace:CovidItalia"
         mc:Ignorable="d"
-        Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="340" MinWidth="500">
+        Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="340" MinWidth="500"
+        Closing="Window_Closing">
 
     <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <GroupBox Grid.Column="1" Grid.Row="0" Header="Dati Italia">
+        <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
+            <Menu DockPanel.Dock="Top" >
+                <MenuItem Header="_File"  >
+                    <MenuItem Header="_Opzioni" Click="MenuItem_Click" />
+                    <Separator />
+                    <MenuItem Header="_Chiudi" Click="Exit_click" />
+                </MenuItem>
+            </Menu>
+        </DockPanel>
+        <GroupBox Grid.Column="1" Grid.Row="1" Header="Dati Italia">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -37,7 +49,7 @@
                 <DatePicker Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDateChanged="DateChanged" Name="calendar" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="10" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="2" Grid.Row="0" Header="Dati Regioni">
+        <GroupBox Grid.Column="2" Grid.Row="1" Header="Dati Regioni">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -54,7 +66,7 @@
                 <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
                 <TextBlock Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="labelsr" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
                 <ComboBox Grid.Column="2" Grid.Row="2" Name="regioni" Margin="20,5,20,5" Height="25" Width="150" HorizontalAlignment="Right" IsReadOnly="True" SelectionChanged="regioni_SelectionChanged">
-                    <ComboBoxItem Content="--Seleziona Regione--" Visibility="Collapsed"/>
+                    <ComboBoxItem Content="--Seleziona Regione--" Visibility="Collapsed" Selected="ComboBoxItem_Selected"/>
                     <ComboBoxItem Content="Abruzzo"/>
                     <ComboBoxItem Content="Basilicata"/>
                     <ComboBoxItem Content="Calabria"/>
@@ -82,7 +94,7 @@
                 <Button Grid.Row="3" Grid.Column="2" Margin="20,5,20,5" x:Name="resetRegione" Content="Aggiorna" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Click="SelectionChanged"/>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Header="Grafico" >
+        <GroupBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Header="Grafico" >
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -98,7 +110,7 @@
                 </lvc:CartesianChart>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="0" Grid.Row="0" Header="Controlli Grafico" >
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Controlli Grafico" >
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -154,5 +166,12 @@
                 </ListBox>
             </Grid>
         </GroupBox>
+        <TextBlock Grid.Row="3" Text="Fonte: ">
+            <Hyperlink
+                NavigateUri="https://github.com/pcm-dpc/COVID-19/"
+                RequestNavigate="Hyperlink_RequestNavigate">
+                https://github.com/pcm-dpc/COVID-19/
+            </Hyperlink>
+        </TextBlock>
     </Grid>
 </Window>

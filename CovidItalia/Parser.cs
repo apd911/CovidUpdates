@@ -7,7 +7,7 @@ using System.IO;
 using System.Net;
 using LiveCharts;
 
-namespace LibCovid
+namespace CovidItalia
 {
     public static class Parser
     {
@@ -121,7 +121,7 @@ namespace LibCovid
 
             Func<List<Dati>> getData = () => ReadCSV();
 
-            var records = cache.GetOrAdd("italia.Get", getData);
+            var records = cache.GetOrAdd("italia.Get", getData, TimeSpan.FromMinutes(10));
 
             foreach (var record in records)
             {
@@ -147,8 +147,8 @@ namespace LibCovid
 
             Func<List<Dati>> getData = () => ReadCSVRegioni();
 
-            var records = cache.GetOrAdd("regioni.Get", getData);
-            if (records[records.Count -1].data.ToString("dd MMMM yyyy") != DateTime.Now.ToString("dd MMMM yyyy") & date.ToString("dd MMMM yyyy") == DateTime.Now.ToString("dd MMMM yyyy"))
+            var records = cache.GetOrAdd("regioni.Get", getData, TimeSpan.FromMinutes(10));
+            if (records[records.Count - 1].data.ToString("dd MMMM yyyy") != DateTime.Now.ToString("dd MMMM yyyy") & date.ToString("dd MMMM yyyy") == DateTime.Now.ToString("dd MMMM yyyy"))
             {
                 foreach (var record in records)
                 {
@@ -178,9 +178,6 @@ namespace LibCovid
                     }
                 }
             }
-
-                
-
             return filtered;
         }
 
@@ -222,7 +219,7 @@ namespace LibCovid
                 {
                     records = cache.GetOrAdd("regioni.Get", getData);
                 }
-                
+
 
                 foreach (var record in records)
                 {
@@ -496,7 +493,7 @@ namespace LibCovid
                     {
                         if (DateTime.Compare(record.data, end) == 0 | DateTime.Compare(record.data, end) == -1)
                         {
-                            if(record.regione == region)
+                            if (record.regione == region)
                             {
                                 filtered.Add(record.totaleCasi);
                             }

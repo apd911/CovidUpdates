@@ -1,20 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
-using CovidNotifyLib;
-using LibCovid;
 
 namespace CovidItalia
 {
-    /// <summary>
-    /// Logica di interazione per Window1.xaml
-    /// </summary>
     public partial class Window1 : Window
     {
         public Window1()
         {
             InitializeComponent();
+            botID.Text = Configuration.Get.botID();
+            chatID.Text = Configuration.Get.chatID();
+            windows.IsChecked = Configuration.Get.win();
+            telegram.IsChecked = Configuration.Get.telegram();
         }
 
         private void CheckBox_Checked(object sender, RoutedEventArgs e)
@@ -25,35 +22,17 @@ namespace CovidItalia
 
         private void salva_Click(object sender, RoutedEventArgs e)
         {
-            var values = Parser.Filtered(DateTime.Today);
-            var value = values[0];
-
-            if (telegram.IsChecked == true)
+            if (telegram.IsChecked == true & (botID.Text == "" | chatID.Text == ""))
             {
-                if (botID.Text == "")
-                {
-                    botID.BorderBrush = Brushes.Red;
-                }
-                if (chatID.Text == "")
-                {
-                    chatID.BorderBrush = Brushes.Red;
-                }
+                botID.BorderBrush = Brushes.Red;
+                chatID.BorderBrush = Brushes.Red;
             }
             else
             {
-                List<ConfigurationFile.data> config = new List<ConfigurationFile.data>();
-
-                config.Add(new ConfigurationFile.data()
-                {
-                    win = (bool)windows.IsChecked,
-                    telegram = (bool)telegram.IsChecked,
-                    botID = botID.Text,
-                    chatID = chatID.Text,
-                    lastUpdate = value.data
-                });
-
-                ConfigurationFile.WriteFile(config);
-
+                Configuration.Write.win(windows.IsChecked.Value);
+                Configuration.Write.telegram(telegram.IsChecked.Value);
+                Configuration.Write.botID(botID.Text.ToString());
+                Configuration.Write.chatID(chatID.Text.ToString());
                 Close();
             }
         }

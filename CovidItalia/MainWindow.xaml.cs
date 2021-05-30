@@ -1,17 +1,14 @@
 ﻿using System;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-using LibCovid;
 using LiveCharts;
 using LiveCharts.Wpf;
 using System.Windows.Forms;
 using System.Drawing;
-using System.Threading;
-using System.Diagnostics;
-using CovidNotifyLib;
+using System.ComponentModel;
 using Brushes = System.Windows.Media.Brushes;
-using System.Collections.Generic;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace CovidItalia
 {
@@ -21,19 +18,13 @@ namespace CovidItalia
         private System.Windows.Forms.ContextMenu ContextMenu1;
         private System.Windows.Forms.MenuItem MenuItemExit;
         private System.Windows.Forms.MenuItem MenuItemOpen;
-        private System.ComponentModel.IContainer components;
+        private IContainer components;
         private bool f;
 
         public MainWindow()
         {
-            new Thread(() =>
-            {
-                Thread.CurrentThread.IsBackground = true;
-                NotificationService();
-            }).Start();
-
             f = false;
-            components = new System.ComponentModel.Container();
+            components = new Container();
             ContextMenu1 = new System.Windows.Forms.ContextMenu();
             MenuItemExit = new System.Windows.Forms.MenuItem();
             MenuItemOpen = new System.Windows.Forms.MenuItem();
@@ -80,6 +71,10 @@ namespace CovidItalia
             datir.Text = "Nessuna regione selezionata";
             SeriesCollection = new SeriesCollection{};
             DataContext = this;
+
+            Task.Run(() => {
+                while (!f) { NotificationService.Notification(); }
+            });
         }
 
         private void DateChanged(object sender, SelectionChangedEventArgs e)
@@ -317,46 +312,6 @@ namespace CovidItalia
             Window1 window1 = new Window1();
             window1.Show();
         }
-
-        private void NotificationService()
-        {
-            var values = Parser.Filtered(DateTime.Today);
-            var value = values[0];
-
-            while (true)
-            {
-                Thread.Sleep(5000);
-                if (File.Exists("./config.json") == true)
-                {
-                    List<ConfigurationFile.data> config = new List<ConfigurationFile.data>();
-                    config.Add(new ConfigurationFile.data()
-                    {
-                        win = ConfigurationFile.GetFile()[0].win,
-                        telegram = ConfigurationFile.GetFile()[0].telegram,
-                        botID = ConfigurationFile.GetFile()[0].botID,
-                        chatID = ConfigurationFile.GetFile()[0].chatID,
-                        lastUpdate = value.data
-                    });
-
-                    if(ConfigurationFile.GetFile()[0].lastUpdate.ToString("dd MMM yy") != value.data.ToString("dd MMM yy"))
-                    {
-                        ConfigurationFile.WriteFile(config);
-                    }
-
-                    Debug.WriteLine("File di configurazione OK");
-                    Debug.WriteLine("Win Notification " + ConfigurationFile.GetFile()[0].win.ToString());
-                    Debug.WriteLine("Telegram Notification " + ConfigurationFile.GetFile()[0].telegram.ToString());
-                    Debug.WriteLine("BotID " + ConfigurationFile.GetFile()[0].botID);
-                    Debug.WriteLine("ChatID " + ConfigurationFile.GetFile()[0].chatID);
-                    Debug.WriteLine("Ultimo Aggiornamento " + ConfigurationFile.GetFile()[0].lastUpdate.ToString("dd MMM yy"));
-                }
-                else
-                {
-                    ConfigurationFile.NewFile();
-                    Debug.WriteLine("File di configurazione riscritto");
-                }
-                Debug.WriteLine("Il thread funziona");
-            }
-        }
     }
+
 }

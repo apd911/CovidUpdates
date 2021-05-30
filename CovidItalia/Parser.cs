@@ -1,11 +1,11 @@
 ﻿using CsvHelper;
 using LazyCache;
+using LiveCharts;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Net;
-using LiveCharts;
 
 namespace CovidItalia
 {
@@ -219,7 +219,6 @@ namespace CovidItalia
                 {
                     records = cache.GetOrAdd("regioni.Get", getData);
                 }
-
 
                 foreach (var record in records)
                 {

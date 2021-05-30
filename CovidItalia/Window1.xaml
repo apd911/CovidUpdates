@@ -3,7 +3,6 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:CovidItalia"
         mc:Ignorable="d"
         Title="Opzioni Applicazione" Height="220" Width="280">
     <Grid>
@@ -13,7 +12,7 @@
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <CheckBox Grid.Row="0" Content="Attiva Notifiche Windows" x:Name="windows" Margin="10" />
-        <GroupBox Grid.Row="1" Header="Notifiche Telegram" >
+        <GroupBox Grid.Row="1" Header="Notifiche Telegram">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />

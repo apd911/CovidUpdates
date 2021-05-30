@@ -1,8 +1,8 @@
-﻿using System;
-using Microsoft.Toolkit.Uwp.Notifications;
+﻿using Microsoft.Toolkit.Uwp.Notifications;
+using System;
+using System.Diagnostics;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
-using System.Diagnostics;
 
 namespace CovidItalia
 {

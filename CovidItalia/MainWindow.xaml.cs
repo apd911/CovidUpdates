@@ -1,14 +1,14 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
+using System.ComponentModel;
+using System.Drawing;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using LiveCharts;
-using LiveCharts.Wpf;
 using System.Windows.Forms;
-using System.Drawing;
-using System.ComponentModel;
 using Brushes = System.Windows.Media.Brushes;
-using System.Threading.Tasks;
-using System.Threading;
 
 namespace CovidItalia
 {
@@ -69,11 +69,16 @@ namespace CovidItalia
                 value.totaleDeceduti.ToString(format) + "\n" + value.nuoviTamponi.ToString(format) + "\n" + value.totaleTamponi.ToString(format) + "\n" + value.nuoviGuariti.ToString(format) + "\n" +
                 value.totaleGuariti.ToString(format) + "\n" + value.totaleCasi.ToString(format);
             datir.Text = "Nessuna regione selezionata";
-            SeriesCollection = new SeriesCollection{};
+            SeriesCollection = new SeriesCollection { };
             DataContext = this;
 
-            Task.Run(() => {
-                while (!f) { NotificationService.Notification(); }
+            Task.Run(() =>
+            {
+                while (!f)
+                {
+                    Thread.Sleep(15000);
+                    NotificationService.Notification();
+                }
             });
         }
 
@@ -109,7 +114,7 @@ namespace CovidItalia
                     valuer.totaleGuariti.ToString(format) + "\n" + valuer.totaleCasi.ToString(format) + "\n" + valuer.regione;
             }
         }
-        
+
         private void regioni_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             resetRegione.IsEnabled = true;
@@ -257,7 +262,6 @@ namespace CovidItalia
                     StrokeThickness = 1,
                     Fill = Brushes.Transparent
                 });
-                
             }
             xaxis.Labels = Parser.ChartSelector.data(start.SelectedDate.Value, end.SelectedDate.Value);
         }
@@ -274,12 +278,12 @@ namespace CovidItalia
             resetRegione.IsEnabled = false;
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object sender, CancelEventArgs e)
         {
             SeriesCollection.Clear();
         }
 
-        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
+        protected override void OnClosing(CancelEventArgs e)
         {
             if (f == false)
             {
@@ -306,12 +310,11 @@ namespace CovidItalia
             NotifyIcon.Dispose();
             Close();
         }
-        
+
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
             Window1 window1 = new Window1();
             window1.Show();
         }
     }
-
 }

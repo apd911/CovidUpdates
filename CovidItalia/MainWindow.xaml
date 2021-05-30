@@ -5,7 +5,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:sys="clr-namespace:System;assembly=mscorlib"
         xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
-        xmlns:local="clr-namespace:CovidItalia"
         mc:Ignorable="d"
         Title="CoViD-19 Italia" SizeToContent="WidthAndHeight" MinHeight="340" MinWidth="500"
         Closing="Window_Closing">
@@ -23,8 +22,8 @@
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <DockPanel Grid.Row="0" Grid.ColumnSpan="3">
-            <Menu DockPanel.Dock="Top" >
-                <MenuItem Header="_File"  >
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
                     <MenuItem Header="_Opzioni" Click="MenuItem_Click" />
                     <Separator />
                     <MenuItem Header="_Chiudi" Click="Exit_click" />
@@ -32,76 +31,76 @@
             </Menu>
         </DockPanel>
         <GroupBox Grid.Column="1" Grid.Row="1" Header="Dati Italia">
-            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" >
+            <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="data" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="dati" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labels" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="data" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="1" Grid.Row="1" x:Name="dati" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top" />
+                <TextBlock Grid.Column="0" Grid.Row="1" x:Name="labels" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top" />
                 <DatePicker Grid.Column="2" Grid.Row="1" Grid.ColumnSpan="2" SelectedDateChanged="DateChanged" Name="calendar" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="10" VerticalAlignment="Top" />
             </Grid>
         </GroupBox>
         <GroupBox Grid.Column="2" Grid.Row="1" Header="Dati Regioni">
             <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="datar" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center"/>
-                <TextBlock Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="labelsr" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top"/>
+                <TextBlock Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" x:Name="datar" HorizontalAlignment="Left" Margin="10,20,20,0" Text="26 aprile 2012" Width="100" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="0" Grid.Row="0" TextAlignment="Right" HorizontalAlignment="Right" Margin="0,20,0,0" Text="Data" TextWrapping="Wrap" VerticalAlignment="Center" />
+                <TextBlock Grid.Column="0" Grid.Row="1" Grid.RowSpan="3" x:Name="labelsr" TextAlignment="Right" HorizontalAlignment="Left" Margin="20,20,0,0" Text="Labels" TextWrapping="Wrap" VerticalAlignment="Top" />
                 <ComboBox Grid.Column="2" Grid.Row="2" Name="regioni" Margin="20,5,20,5" Height="25" Width="150" HorizontalAlignment="Right" IsReadOnly="True" SelectionChanged="regioni_SelectionChanged">
-                    <ComboBoxItem Content="--Seleziona Regione--" Visibility="Collapsed" Selected="ComboBoxItem_Selected"/>
-                    <ComboBoxItem Content="Abruzzo"/>
-                    <ComboBoxItem Content="Basilicata"/>
-                    <ComboBoxItem Content="Calabria"/>
-                    <ComboBoxItem Content="Campania"/>
-                    <ComboBoxItem Content="Emilia-Romagna"/>
-                    <ComboBoxItem Content="Friuli Venezia Giulia"/>
-                    <ComboBoxItem Content="Lazio"/>
-                    <ComboBoxItem Content="Liguria"/>
-                    <ComboBoxItem Content="Lombardia"/>
-                    <ComboBoxItem Content="Marche"/>
-                    <ComboBoxItem Content="Molise"/>
-                    <ComboBoxItem Content="P.A. Bolzano"/>
-                    <ComboBoxItem Content="P.A. Trento"/>
-                    <ComboBoxItem Content="Piemonte"/>
-                    <ComboBoxItem Content="Puglia"/>
-                    <ComboBoxItem Content="Sardegna"/>
-                    <ComboBoxItem Content="Sicilia"/>
-                    <ComboBoxItem Content="Toscana"/>
-                    <ComboBoxItem Content="Umbria"/>
-                    <ComboBoxItem Content="Valle d'Aosta"/>
-                    <ComboBoxItem Content="Veneto"/>
+                    <ComboBoxItem Content="--Seleziona Regione--" Visibility="Collapsed" Selected="ComboBoxItem_Selected" />
+                    <ComboBoxItem Content="Abruzzo" />
+                    <ComboBoxItem Content="Basilicata" />
+                    <ComboBoxItem Content="Calabria" />
+                    <ComboBoxItem Content="Campania" />
+                    <ComboBoxItem Content="Emilia-Romagna" />
+                    <ComboBoxItem Content="Friuli Venezia Giulia" />
+                    <ComboBoxItem Content="Lazio" />
+                    <ComboBoxItem Content="Liguria" />
+                    <ComboBoxItem Content="Lombardia" />
+                    <ComboBoxItem Content="Marche" />
+                    <ComboBoxItem Content="Molise" />
+                    <ComboBoxItem Content="P.A. Bolzano" />
+                    <ComboBoxItem Content="P.A. Trento" />
+                    <ComboBoxItem Content="Piemonte" />
+                    <ComboBoxItem Content="Puglia" />
+                    <ComboBoxItem Content="Sardegna" />
+                    <ComboBoxItem Content="Sicilia" />
+                    <ComboBoxItem Content="Toscana" />
+                    <ComboBoxItem Content="Umbria" />
+                    <ComboBoxItem Content="Valle d'Aosta" />
+                    <ComboBoxItem Content="Veneto" />
                 </ComboBox>
-                <TextBlock Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" x:Name="datir" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top"/>
-                <DatePicker Grid.Column="2" Grid.Row="1" Name="calendarr" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,5,20,5" VerticalAlignment="Center"/>
-                <Button Grid.Row="3" Grid.Column="2" Margin="20,5,20,5" x:Name="resetRegione" Content="Aggiorna" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Click="SelectionChanged"/>
+                <TextBlock Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" x:Name="datir" HorizontalAlignment="Left" Margin="10,20,0,0" Text="Dati" Width="70" TextWrapping="Wrap" VerticalAlignment="Top" />
+                <DatePicker Grid.Column="2" Grid.Row="1" Name="calendarr" IsTodayHighlighted="true" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDate="{x:Static sys:DateTime.Now}" Margin="20,5,20,5" VerticalAlignment="Center" />
+                <Button Grid.Row="3" Grid.Column="2" Margin="20,5,20,5" x:Name="resetRegione" Content="Aggiorna" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Click="SelectionChanged" />
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Header="Grafico" >
+        <GroupBox Grid.Column="0" Grid.Row="2" Grid.ColumnSpan="3" Header="Grafico">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <lvc:CartesianChart x:Name="charter" Grid.Column="1" Grid.Row='0' Series="{Binding SeriesCollection}" Height="Auto" Width="Auto" Hoverable="true" MinWidth="600" Zoom="Xy" MinHeight="400" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" LegendLocation="Right">
                     <lvc:CartesianChart.AxisX>
@@ -110,48 +109,48 @@
                 </lvc:CartesianChart>
             </Grid>
         </GroupBox>
-        <GroupBox Grid.Column="0" Grid.Row="1" Header="Controlli Grafico" >
+        <GroupBox Grid.Column="0" Grid.Row="1" Header="Controlli Grafico">
             <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
                 <TextBlock Text="Data di inizio" Grid.Row="0" Grid.Column="1" Margin="10" HorizontalAlignment="Right" VerticalAlignment="Center" />
                 <DatePicker x:Name="start" Width="100" Height="25" Grid.Row="0" VerticalAlignment="Center" Grid.Column="2" HorizontalAlignment="Left" Margin="10" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDateChanged="start_SelectedDateChanged" />
                 <TextBlock Text="Data di fine" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center" />
                 <DatePicker x:Name="end" Width="100" Height="25" Grid.Row="1" VerticalAlignment="Center" Grid.Column="2" IsEnabled="False" HorizontalAlignment="Left" Margin="10" DisplayDateStart="2/24/2020" DisplayDateEnd="{x:Static sys:DateTime.Now}" SelectedDateChanged="end_SelectedDateChanged" />
                 <TextBlock Text="Seleziona Zona" Grid.Row="2" Grid.Column="1" HorizontalAlignment="Right" Margin="10" VerticalAlignment="Center" />
-                <Button Grid.Row="3" Grid.Column="4" x:Name="reset" Content="Aggiorna" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Click="reset_Click"/>
+                <Button Grid.Row="3" Grid.Column="4" x:Name="reset" Content="Aggiorna" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="10" Click="reset_Click" />
                 <ComboBox Grid.Column="2" Grid.Row="2" Grid.ColumnSpan="2" Name="regioniGraph" Height="25" Margin="10" Width="150" IsEnabled="false" HorizontalAlignment="Left" VerticalAlignment="Center" IsReadOnly="True">
-                    <ComboBoxItem Content="Italia" IsSelected="True"/>
-                    <ComboBoxItem Content="Abruzzo"/>
-                    <ComboBoxItem Content="Basilicata"/>
-                    <ComboBoxItem Content="Calabria"/>
-                    <ComboBoxItem Content="Campania"/>
-                    <ComboBoxItem Content="Emilia-Romagna"/>
-                    <ComboBoxItem Content="Friuli Venezia Giulia"/>
-                    <ComboBoxItem Content="Lazio"/>
-                    <ComboBoxItem Content="Liguria"/>
-                    <ComboBoxItem Content="Lombardia"/>
-                    <ComboBoxItem Content="Marche"/>
-                    <ComboBoxItem Content="Molise"/>
-                    <ComboBoxItem Content="P.A. Bolzano"/>
-                    <ComboBoxItem Content="P.A. Trento"/>
-                    <ComboBoxItem Content="Piemonte"/>
-                    <ComboBoxItem Content="Puglia"/>
-                    <ComboBoxItem Content="Sardegna"/>
-                    <ComboBoxItem Content="Sicilia"/>
-                    <ComboBoxItem Content="Toscana"/>
-                    <ComboBoxItem Content="Umbria"/>
-                    <ComboBoxItem Content="Valle d'Aosta"/>
-                    <ComboBoxItem Content="Veneto"/>
+                    <ComboBoxItem Content="Italia" IsSelected="True" />
+                    <ComboBoxItem Content="Abruzzo" />
+                    <ComboBoxItem Content="Basilicata" />
+                    <ComboBoxItem Content="Calabria" />
+                    <ComboBoxItem Content="Campania" />
+                    <ComboBoxItem Content="Emilia-Romagna" />
+                    <ComboBoxItem Content="Friuli Venezia Giulia" />
+                    <ComboBoxItem Content="Lazio" />
+                    <ComboBoxItem Content="Liguria" />
+                    <ComboBoxItem Content="Lombardia" />
+                    <ComboBoxItem Content="Marche" />
+                    <ComboBoxItem Content="Molise" />
+                    <ComboBoxItem Content="P.A. Bolzano" />
+                    <ComboBoxItem Content="P.A. Trento" />
+                    <ComboBoxItem Content="Piemonte" />
+                    <ComboBoxItem Content="Puglia" />
+                    <ComboBoxItem Content="Sardegna" />
+                    <ComboBoxItem Content="Sicilia" />
+                    <ComboBoxItem Content="Toscana" />
+                    <ComboBoxItem Content="Umbria" />
+                    <ComboBoxItem Content="Valle d'Aosta" />
+                    <ComboBoxItem Content="Veneto" />
                 </ComboBox>
                 <ListBox x:Name="checkboxes" Grid.Row="0" Grid.Column="0" Grid.RowSpan="4" IsEnabled="False" Margin="10">
                     <CheckBox x:Name="nuoviPositivi" Content="Nuovi Contagi" />
